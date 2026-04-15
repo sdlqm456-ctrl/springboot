@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>이벤트위임(그룹이벤트)</h2>
+    <input id="txt" /><button type="button" id="btn">등록</button>
+    <div id="list">
+      <dir data-price="5000" data-cnt="5">바나나</dir>
+      <dir data-price="2000" data-cnt="2">포도</dir>
+      <dir data-price="3000" data-cnt="4">키위</dir>
+    </div>
+    <script>
+      document.querySelector("#btn").addEventListener("click", () => {
+        // 텍스트필드입력값을 조회
+        let fruit = document.querySelector("#txt").value;
+        // list div에 추가
+        let tag = `<div>${fruit}</div>`;
+        document.querySelector("#list").insertAdjacentHTML("afterbegin", tag);
+      });
+      // 부모에게 이벤트 위임
+      document.querySelector("#list").addEventListener("click", (e) => {
+        e.target.style.backgroundColor = "yellowgreen";
+        console.log(e.target.dataset.price);
+      });
+
+      // 개별이벤트 추가
+      //  document.querySelectorAll("#list div").forEach((el, idx) = {
+      //   el.addEventListener("cilck", (e) => {
+      //     e.tatget.style.backgroundColor = "yellowgreen";
+      //   })
+      //  })
+    </script>
+  </body>
+</html>

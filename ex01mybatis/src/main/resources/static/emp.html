@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container-lg">
+      <!-- Content here -->
+      <div class="row">
+        <div class="col border">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <td>employeeID</td>
+                <td>lastName</td>
+                <td>email</td>
+                <td>hireData</td>
+                <td>jobId</td>
+              </tr>
+            </thead>
+            <tbody id="emplist"></tbody>
+          </table>
+        </div>
+        <div class="col border">
+          <div class="mb-3">
+            <label for="lastName" class="form-label">lastName</label>
+            <input type="text" class="form-control" id="lastName" />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" id="email" />
+          </div>
+          <div class="mb-3">
+            <label for="jobid" class="form-label">jobId</label>
+            <input type="text" class="form-control" id="jobId" />
+          </div>
+      
+          <div>
+           <button type="button" id="btnInsert" class="btn btn-warning">
+              등록
+            </button>
+            <button type="button" id="btnUpdate" class="btn btn-warning">
+              수정
+            </button>
+            <button type="button" id="btnDelete" class="btn btn-danger">
+              삭제
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      selectAll();
+
+      // 버튼 부분
+
+      /* 수정 버튼 */
+      document.querySelector("#btnUpdate").addEventListener("click", (e) => {
+    	  let param = {};
+    	  param.lastname = document.quertSelector("#lastName").value;
+    	  param.email = document.quertSelector("#email").value;
+    	  param.jobid = document.quertSelector("#jobId").value;
+      });
+
+      /*삭제 버튼*/
+      document.querySelector("#btnDelete").addEventListener("click", (e) => {
+        let empid = document.querySelector("#postid").value;
+        fetch(`https://localhost:86/api/emp + ${empid}`, {
+          method: "DELETE",
+        }).then((response) => {
+          alert("삭제가 완료됨");
+        });
+      });
+
+      // 클릭 시 댓글과 내용 단건조회
+      document.querySelector("#emplist").addEventListener("click", (e) => {
+    	empid = e.target.closest("tr").dataset.empid;
+    	selectOne(empid);
+      });
+
+      /* 사원 목록 전체조회 */
+      function selectAll(empid) {
+        fetch(`http://localhost:86/api/emp`)
+          .then((response) => response.json())
+          .then((post) => {
+            for (let i = 0; i < 10; i++) {
+              let tag = `
+                <tr data-id="${post[i].employeeId}">
+                  <td>${post[i].employeeId}</td>
+	                <td>${post[i].lastName}</td>
+	                <td>${post[i].email}</td>
+	                <td>${post[i].hireData}</td>
+	                <td>${post[i].lastName}</td>
+                </tr>`;
+              document
+                .querySelector("#emplist")
+                .insertAdjacentHTML("beforeend", tag);
+            }
+          });
+      }
+      /*게시글 단건 조회*/
+      function selectOne(empid) {
+        fetch(`http://localhost:86/api/emp/${empid}`)
+         .then((response) => response.json())
+       	 .then((post) => {
+       		 doucument
+       		 	.quertSelector("#emplist")
+       		 	.insertAdjacentHTML("befor")
+       	 })
+      }
+    </script>
+  </body>
+</html>
