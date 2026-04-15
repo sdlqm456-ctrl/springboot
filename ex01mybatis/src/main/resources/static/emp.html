@@ -22,7 +22,7 @@
                 <td>employeeID</td>
                 <td>lastName</td>
                 <td>email</td>
-                <td>hireData</td>
+                <td>hireDate</td>
                 <td>jobId</td>
               </tr>
             </thead>
@@ -30,23 +30,32 @@
           </table>
         </div>
         <div class="col border">
-          <div class="mb-3">
-            <label for="lastName" class="form-label">lastName</label>
-            <input type="text" class="form-control" id="lastName" />
+          <div class="col border">
+            <div class="mb-3">
+              <label for="employeeID" class="form-label">employeeID</label>
+              <input type="text" class="form-control" id="employeeID" />
+            </div>
+            <div class="mb-3">
+              <label for="lastName" class="form-label">lastName</label>
+              <input type="text" class="form-control" id="lastName" />
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="text" class="form-control" id="email" />
+            </div>
+            <div class="mb-3">
+            <label for="hireDate" class="form-label">hireDate</label>
+            <input type="text" class="form-control" id="hireDate" />
           </div>
           <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="text" class="form-control" id="email" />
-          </div>
-          <div class="mb-3">
-            <label for="jobid" class="form-label">jobId</label>
+            <label for="jobId" class="form-label">jobId</label>
             <input type="text" class="form-control" id="jobId" />
           </div>
-      
+
           <div>
-           <button type="button" id="btnInsert" class="btn btn-warning">
+            <!-- <button type="button" id="btnInsert" class="btn btn-warning">
               등록
-            </button>
+            </button> -->
             <button type="button" id="btnUpdate" class="btn btn-warning">
               수정
             </button>
@@ -62,28 +71,40 @@
 
       // 버튼 부분
 
+      /*등록 버튼*/
+      // doucument.quertSelector("btnInsert").addEventListener("click", (e) => {});
+
       /* 수정 버튼 */
       document.querySelector("#btnUpdate").addEventListener("click", (e) => {
-    	  let param = {};
-    	  param.lastname = document.quertSelector("#lastName").value;
-    	  param.email = document.quertSelector("#email").value;
-    	  param.jobid = document.quertSelector("#jobId").value;
+        let param = {};
+        param.employeeid = document.querySelector("#employeeID").value;
+        param.lastname = document.querySelector("#lastName").value;
+        param.email = document.querySelector("#email").value;
+        param.jobid = document.querySelector("#jobId").value;
+
+        fetch(`http://localhost:86/api/emp/${param.employeeId}`, {
+          method: "PUT",
+          body: JSON.stringify(param),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }) 
+        .then((response)=> {
+          alert("수정 완료");
+          document.querySelector("#emplist").innerHTML = "";
+          selectAll();
+        })
       });
 
       /*삭제 버튼*/
       document.querySelector("#btnDelete").addEventListener("click", (e) => {
-        let empid = document.querySelector("#postid").value;
-        fetch(`https://localhost:86/api/emp + ${empid}`, {
+        let empid = document.querySelector("#employeeID").value;
+        fetch(`http://localhost:86/api/emp/${empid}`, {
           method: "DELETE",
         }).then((response) => {
           alert("삭제가 완료됨");
+          selectAll();
         });
-      });
-
-      // 클릭 시 댓글과 내용 단건조회
-      document.querySelector("#emplist").addEventListener("click", (e) => {
-    	empid = e.target.closest("tr").dataset.empid;
-    	selectOne(empid);
       });
 
       /* 사원 목록 전체조회 */
@@ -91,14 +112,14 @@
         fetch(`http://localhost:86/api/emp`)
           .then((response) => response.json())
           .then((post) => {
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < post.length; i++) {
               let tag = `
                 <tr data-id="${post[i].employeeId}">
                   <td>${post[i].employeeId}</td>
 	                <td>${post[i].lastName}</td>
-	                <td>${post[i].email}</td>
-	                <td>${post[i].hireData}</td>
-	                <td>${post[i].lastName}</td>
+	                <td>${post[i].Email}</td>
+	                <td>${post[i].hireDate}</td>
+	                <td>${post[i].jobId}</td>
                 </tr>`;
               document
                 .querySelector("#emplist")
@@ -106,15 +127,15 @@
             }
           });
       }
-      /*게시글 단건 조회*/
+      /* 사원 단건 조회*/
       function selectOne(empid) {
         fetch(`http://localhost:86/api/emp/${empid}`)
-         .then((response) => response.json())
-       	 .then((post) => {
-       		 doucument
-       		 	.quertSelector("#emplist")
-       		 	.insertAdjacentHTML("befor")
-       	 })
+          .then((response) => response.json())
+          .then((post) => {
+            doucument
+              .quertSelector("#emplist")
+              .insertAdjacentHTML("beforeed", tag);
+          });
       }
     </script>
   </body>
