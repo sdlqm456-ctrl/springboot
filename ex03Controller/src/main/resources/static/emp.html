@@ -53,9 +53,9 @@
           </div>
 
           <div>
-            <!-- <button type="button" id="btnInsert" class="btn btn-warning">
+            <button type="button" id="btnInsert" class="btn btn-warning">
               등록
-            </button> -->
+            </button>
             <button type="button" id="btnUpdate" class="btn btn-warning">
               수정
             </button>
@@ -72,7 +72,27 @@
       // 버튼 부분
 
       /*등록 버튼*/
-      // doucument.quertSelector("btnInsert").addEventListener("click", (e) => {});
+      document.quertSelector("#btnInsert").addEventListener("click", (e) => {
+         let param = {};
+        param.employeeid = document.querySelector("#employeeID").value;
+        param.lastname = document.querySelector("#lastName").value;
+        param.email = document.querySelector("#email").value;
+        param.hireDate = document.querySelector("#hireDate").value;
+        param.jobid = document.querySelector("#jobId").value;
+
+         fetch(`http://localhost:86/api/emp`, {
+          method: "POST",
+          body: JSON.stringify(param),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }) 
+        .then((response)=> {
+          alert("등록 성공");
+          document.querySelector("#emplist").innerHTML = "";
+          selectAll();
+        })
+      });
 
       /* 수정 버튼 */
       document.querySelector("#btnUpdate").addEventListener("click", (e) => {
@@ -82,7 +102,7 @@
         param.email = document.querySelector("#email").value;
         param.jobid = document.querySelector("#jobId").value;
 
-        fetch(`http://localhost:86/api/emp/${param.employeeId}`, {
+        fetch(`http://localhost:86/api/emp/${param.employeeid}`, {
           method: "PUT",
           body: JSON.stringify(param),
           headers: {
@@ -133,7 +153,7 @@
           .then((response) => response.json())
           .then((post) => {
             doucument
-              .quertSelector("#emplist")
+              .querySelector("#emplist")
               .insertAdjacentHTML("beforeed", tag);
           });
       }

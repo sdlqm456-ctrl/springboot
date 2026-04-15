@@ -3,10 +3,121 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>영화 박스오피스</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
-    <input id="targetDt" /><button>조회하기</button>
-    <div id="movielist"></div>
+    <div class="container-lg">
+      <div class="row">
+        <div class="col border">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <td>번호</td>
+                <td>순위</td>
+                <td>영화이름</td>
+                <td>개봉일</td>
+              </tr>
+            </thead>
+            <tbody id="movielist"></tbody>
+          </table>
+        </div>
+        <div class="col border">
+          <div class="mb-3">
+            <label for="rnum" class="form-label">rnum</label>
+            <input
+              type="text"
+              class="form-control"
+              id="rnum"
+              placeholder="YYYYMMDD"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="rank" class="form-label">rank</label>
+            <input type="text" class="form-control" id="rank" />
+          </div>
+          <div class="mb-3">
+            <label for="movieNm" class="form-label">movieNm</label>
+            <input type="text" class="form-control" id="movieNm" />
+          </div>
+          <div class="mb-3">
+            <label for="openDt" class="form-label">openDt</label>
+            <input type="text" class="form-control" id="openDt" />
+            <button type="button" id="btnsearch" class="btn btn-success">
+              조회하기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      selectAll();
+
+      // 조회하기 버튼
+      document.querySelector("#btnsearch").addEventListener("click", (e) => {
+        let search = document.querySelector("#rnum").value;
+        document.querySelector("#movielist").innerHTML = "";
+        fetch(
+          `https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=12664b24453335d2c3eca0fdc4b3b013&targetDt=20260413`,
+        )
+          .then((response) => response.json())
+          .then((post) => {
+            let movies = post.boxOfficeResult.dailyBoxOfficeList;
+            for (let i = 0; i < movies.length; i++) {
+              let tag = `
+                <tr data-id="${movies[i].rnum}">
+                  <td>${movies[i].rnum}</td>
+	                <td>${movies[i].rank}</td>
+	                <td>${movies[i].movieNm}</td>
+	                <td>${movies[i].openDt}</td>
+                </tr>`;
+              document
+                .querySelector("#movielist")
+                .insertAdjacentHTML("beforeend", tag);
+            }
+          });
+      });
+
+      // 영화목록 전체 조회
+      function selectAll(rnum) {
+        fetch(
+          `https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=12664b24453335d2c3eca0fdc4b3b013&targetDt=20260413`,
+        )
+          .then((response) => response.json())
+          .then((post) => {
+            let movies = post.boxOfficeResult.dailyBoxOfficeList;
+            for (let i = 0; i < movies.length; i++) {
+              let tag = `
+                <tr data-id="${movies[i].rnum}">
+                  <td>${movies[i].rnum}</td>
+	                <td>${movies[i].rank}</td>
+	                <td>${movies[i].movieNm}</td>
+	                <td>${movies[i].openDt}</td>
+                </tr>`;
+              document
+                .querySelector("#movielist")
+                .insertAdjacentHTML("beforeend", tag);
+            }
+          });
+      }
+      // 영화 단건 조회
+      function selectOne(rnum) {
+        fetch(
+          `https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=12664b24453335d2c3eca0fdc4b3b013&targetDt=20260413/${rnum}`,
+        )
+          .then((response) => response.json())
+          .then((post) => {
+            document
+              .querySelector("#movielist")
+              .insertAdjacentHTML("beforeend", tag);
+          });
+      }
+    </script>
   </body>
 </html>
