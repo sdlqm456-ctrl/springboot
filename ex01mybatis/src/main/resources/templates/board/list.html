@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+ <div layout:fragment="content">
+	
+	<h1>게시글 목록</h1>
+	<!-- /*<div>사원수: <span>[[${#lists.size(list)}]]</span>명</div> */ -->
+	<td><a th:href="@{/board/register}">등록</a>
+		<table>
+			<tr>
+			 <td>번호</td>
+			 <td>제목</td>
+			 <td>내용</td>
+			 <td>글쓴이</td>
+			 <td>작성일</td>
+			</tr>
+				 <tr th:each="board : ${list}" th:class="${boardStat.even} ? 'back' : _">
+				 <td th:text=${boardStat.count}></td>
+				 <td th:text="${board.bno}"></td>
+				 <td><a th:text="${board.title}" th:href="@{/board/info(id=${board.bno})}"></a></td>
+				 <td><a th:text="${board.content}" th:href="@{/board/info(id=${board.bno})}"></a></td>
+				 <td><a th:text="${board.writer}" th:href="@{/board/info(id=${board.bno})}"></a></td>
+				 <td th:text="${#dates.format(board.regdate, 'yyyy-MM-dd')}"></td>
+				 
+				 <td><a th:href="@{/board/update(bno=${board.bno})}">수정</a>
+				 <td><a th:href="@{/board/delete(bno=${board.bno})}">삭제</a>
+				 </td>
+			 </tr>
+		</table>
+		<div th:insert="~{layout/page :: page(1,5)}"></div>
+		<script th:inline= "javascript">
+		let emplist = /*[[${list}]]*/[]  
+		console.log(emplist[0].firstName)
+		</script>
+	</div>
+</body>
+</html>
