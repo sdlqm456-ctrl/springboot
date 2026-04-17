@@ -7,6 +7,7 @@ import com.example.demo.board.BoardVO;
 
 @Mapper
 public interface BoardMapper {
+  int selectAll_COUNT(BoardVO boa);
   List<BoardVO> selectAll(BoardVO boa);
   BoardVO selectOne(Integer boardno);
   int insert(BoardVO boa);

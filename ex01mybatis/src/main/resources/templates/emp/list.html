@@ -17,15 +17,15 @@ layout:decorate="~{layout/layout}"
 	<div layout:fragment="content">
 	
 	<h1>사원목록</h1>
-	<form th:object="${emp}">
+	<form th:object="${emp}" name="frm">
+	<input type = "hidden" name="pageNum" value="1">
 	departmentId: <input th:field = "*{departmentId}" >
 	managerId:  <input th:field ="*{managerId}">
 	firstName  <input th:field= "*{firstName}">
-	<button type="reset">초기화</button>
-	<button>조회하기</button>
+	<button type="reset"  class="btn btn-success">초기화</button>
+	<button type="button" class="btn btn-dark">조회하기</button>
 	</form>
 	
-	<!-- /*<div>사원수: <span>[[${#lists.size(list)}]]</span>명</div> */ -->
 	<a th:href="@{/emp/register}">등록</a>
 		<table class="table">
 			<tr>
@@ -37,7 +37,7 @@ layout:decorate="~{layout/layout}"
 			 <td>보너스</td>
 			 <td>수정</td>
 			</tr>
-				 <tr th:each="emp : ${list}" th:class="${empStat.even} ? 'back' : _">
+				 <tr th:each="emp :${pageInfo.list}" th:class="${empStat.even} ? 'back' : _">
 				 <td th:text=${empStat.count}></td>
 				 <td th:text="${emp.employeeId}"></td>
 				 <td><a th:text="${emp.firstName}" th:href="@{/emp/info(id=${emp.employeeId})}"></a></td>
@@ -53,10 +53,15 @@ layout:decorate="~{layout/layout}"
 				 </td>
 			 </tr>
 		</table>
-		<div th:insert="~{layout/page :: page(1,5)}"></div>
+		<div th:insert="~{layout/page :: page(${pageInfo})}"></div>
 		<script th:inline= "javascript">
 		let emplist = /*[[${list}]]*/[]  
 		console.log(emplist[0].firstName)
+		function gopage(pageNum) {
+			frm.pageNum.value = pageNum;
+			frm.submit();
+		}
+		
 		</script>
 	</div>
 	</body>

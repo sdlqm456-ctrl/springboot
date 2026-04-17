@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+<h3>게시글 정보</h3>
+<table>
+ 		<tr>
+			<td>글번호</td>
+			<td th:text="${board.bno}"></td>
+		</tr>
+		
+		<tr>
+			<td>제목</td>
+			<td th:text="${board.title}"></td>
+		</tr>
+		
+		<tr>
+			<td>내용</td>
+			<td th:text="${board.content}"></td>
+		</tr>
+		
+		<tr>
+			<td>작성자</td>
+			<td th:text="${board.writer}"></td>
+		</tr>
+		<tr>
+			<td>작성일자</td>
+			<td th:text="${board.regdate}"></td>
+		</tr>
+		<tr>
+			<td>첨부파일</td>
+			<td ><a th:href="@{/download/{firename}(filename=${board.attach})}" th:text="${board.attach}"></a></td>
+		</tr>
+</table>
+<button th:onclick = "|location.href= 'modify?id=${board.bno}'|">수정</button>
+<button th:onclick = "|location.href= 'remove?id=${board.bno}'|">삭제</button>
+</body>
+</html>

@@ -11,6 +11,7 @@ import com.example.demo.emp.EmployeeVO;
 // configuration + @Bean 
 @Mapper
 public interface EmployeeMapper {
+	int selectAll_COUNT(EmployeeVO emp);
 	List<EmployeeVO> selectAll(EmployeeVO emp);
 	EmployeeVO selectOne(int empid);
 	int delete(int id);

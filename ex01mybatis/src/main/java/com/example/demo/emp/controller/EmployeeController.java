@@ -10,8 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.emp.EmployeeVO;
 import com.example.demo.mapper.EmployeeMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import lombok.extern.slf4j.Slf4j;
 
 // Component + 라우터(컨트롤러임을 명시)
+@Slf4j // log 구현체
 @Controller // 스테디오타입 어노테이션 
 public class EmployeeController {
 	
@@ -20,8 +25,19 @@ public class EmployeeController {
 	
 	//메서드 = 커맨드 핸들러, 커멘드 객체 => Model 저장하고 뷰페이지 전달 
 	@GetMapping({"/emp/list", "/"})
-	public String emplist(Model modle, @ModelAttribute("emp") EmployeeVO vo) {
-		modle.addAttribute("list", employeeMapper.selectAll(vo));
+	public String emplist(Model modle, 
+						  @ModelAttribute("emp") EmployeeVO vo,
+						  @RequestParam (required = false, defaultValue = "1") int pageNum) {
+		PageInfo<EmployeeVO> page = PageHelper.startPage(pageNum, 5)
+											  .doSelectPageInfo(()-> employeeMapper.selectAll(vo));
+
+		log.info("TotalCount : {}, CurrentPage : {}, PageSize : {}, TotalPage : {}"
+				, page.getTotal()
+                , page.getPageNum()
+                , page.getPageSize()
+                , page.getPages());
+		System.out.println(page.getList());
+		modle.addAttribute("pageInfo", page);
 		return "emp/list";
 	}
 	

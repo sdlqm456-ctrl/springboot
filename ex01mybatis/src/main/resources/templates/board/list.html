@@ -11,18 +11,26 @@ layout:decorate="~{layout/layout}">
  <div layout:fragment="content">
 	
 	<h1>게시글 목록</h1>
-	<!-- /*<div>사원수: <span>[[${#lists.size(list)}]]</span>명</div> */ -->
-	<td><a th:href="@{/board/register}">등록</a>
-		<table>
+	<form th:object="${board}" name="frm">
+	<input type = "hidden" name="pageNum" value="1">
+	title:  <input th:field ="*{title}">
+	content:  <input th:field= "*{content}">
+	writer:  <input th:field= "*{writer}">
+	<button type="reset"  class="btn btn-success">초기화</button>
+	<button type="submit" class="btn btn-dark">조회하기</button>
+	</form>
+	<div><span>[[${#lists.size(pageInfo.list)}]]</span>건</div>
+	<a th:href="@{/board/register}">등록</a>
+		<table class="table">
 			<tr>
 			 <td>번호</td>
 			 <td>제목</td>
 			 <td>내용</td>
 			 <td>글쓴이</td>
 			 <td>작성일</td>
+			 <td>수정</td>
 			</tr>
-				 <tr th:each="board : ${list}" th:class="${boardStat.even} ? 'back' : _">
-				 <td th:text=${boardStat.count}></td>
+				 <tr th:each="board : ${pageInfo.list}" th:class="${boardStat.even} ? 'back' : _">
 				 <td th:text="${board.bno}"></td>
 				 <td><a th:text="${board.title}" th:href="@{/board/info(id=${board.bno})}"></a></td>
 				 <td><a th:text="${board.content}" th:href="@{/board/info(id=${board.bno})}"></a></td>
@@ -34,10 +42,13 @@ layout:decorate="~{layout/layout}">
 				 </td>
 			 </tr>
 		</table>
-		<div th:insert="~{layout/page :: page(1,5)}"></div>
+		<div th:insert="~{layout/page :: page(${pageInfo})}"></div>
 		<script th:inline= "javascript">
 		let emplist = /*[[${list}]]*/[]  
-		console.log(emplist[0].firstName)
+		function gopage(pageNum) {
+			frm.pageNum.value = pageNum;
+			frm.submit();
+		}
 		</script>
 	</div>
 </body>
