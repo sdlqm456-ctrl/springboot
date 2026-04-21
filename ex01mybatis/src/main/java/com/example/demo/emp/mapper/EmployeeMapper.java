@@ -1,9 +1,9 @@
-package com.example.demo.mapper;
+package com.example.demo.emp.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.demo.emp.EmployeeVO;
+import com.example.demo.emp.service.EmployeeVO;
 
 // 어노테이션 
 // @Component + 포록시 (대행) 클래스 구현 (been 등록) => @controller, @Mapper

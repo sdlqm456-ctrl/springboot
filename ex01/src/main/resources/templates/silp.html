@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<table>
+ <tr>
+   <th>silp_no</th>
+   <th>silp_amount</th>
+   <th>silp_dt</th>
+   <th>sal_dt</th>
+   <th>customer</th>
+   <th>back_acct</th>
+ </tr>
+ <tr th:each="silp : ${silpList}">
+ <td th:text="${silp.silpno}"></td>
+ <td th:text="${silp.silpamount}"></td>
+ <td th:text="${silp.silpdt}"></td>
+ <td th:text="${silp.customer}"></td>
+ <td th:text="${silp.backacct}"></td>
+ </tr>
+</table>
+</body>
+</html>

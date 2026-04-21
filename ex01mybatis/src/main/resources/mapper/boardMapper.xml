@@ -34,6 +34,9 @@
  </select>
  
 <insert id="insert">
+ <selectKey keyProperty="bno" resultType="Long" order="BEFORE">
+ select seq_board.nextval from dual
+ </selectKey>
   INSERT INTO tbl_board (
       bno,
       title,

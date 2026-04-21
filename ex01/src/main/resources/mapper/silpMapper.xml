@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.silp.mapper.SilpMapper">
+  <select id="selectAll">
+	select * from silp
+  </select>
+  
+  <select id="selectOne" parameterType="int">
+  select count(*) from silp
+  </select>
+  
+  <insert id="insert" parameterType="SilpVO">
+	insert into silp(
+	slip_no
+	slip_amount
+	slip_dt
+	sal_dt
+	customer
+	bank_acct
+	)
+	values(#{slipNo}
+		   #{slipAmount}
+		   #{slipDt}
+		   #{salDt}
+		   #{customer}
+		   #{backAcct})
+  </insert>
+</mapper>

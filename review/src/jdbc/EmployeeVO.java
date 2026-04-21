@@ -21,7 +21,22 @@ public class EmployeeVO {
 	private int managerId;
 	private int departmentId;
 	
+	public EmployeeVO() {
+		
+	}
 
+	public EmployeeVO(int employeeId, String firstName, double salary) {
+		super();
+		this.employeeId = employeeId;
+		this.firstName = firstName;
+		Salary = salary;
+	}
+
+	public EmployeeVO(int employeeId, String firstName) {
+		super();
+		this.employeeId = employeeId;
+		this.firstName = firstName;
+	}
 
 	public int getEmployeeId() {
 		return employeeId;
@@ -89,6 +104,11 @@ public class EmployeeVO {
 	}
 	public void setDepartmentId(int departmentId) {
 		this.departmentId = departmentId;
+	}
+
+	@Override
+	public String toString() {
+		return "EmployeeVO [employeeId=" + employeeId + ", firstName=" + firstName + "]";
 	}
 	
 	

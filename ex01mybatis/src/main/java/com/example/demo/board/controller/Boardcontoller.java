@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.board.BoardVO;
 import com.example.demo.board.mapper.BoardMapper;
+import com.example.demo.board.service.BoardService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -25,26 +26,19 @@ import lombok.extern.slf4j.Slf4j;
 public class Boardcontoller {
 	
 	@Autowired
-	BoardMapper boardMapper;
+	BoardService boardService;
 
 	@GetMapping({"/board/list", "/"})
 	public String boardlist(Model model, 
 			@ModelAttribute("board") BoardVO vo,
 			@RequestParam(required = false, defaultValue = "1") int pageNum) {
-		PageInfo<BoardVO> page = PageHelper.startPage(pageNum, 5)
-										   .doSelectPageInfo(() -> boardMapper.selectAll(vo));
-		log.info("TotalCount : {}, CurrentPage : {}, PageSize : {}, TotalPage : {}"
-				, page.getTotal()
-                , page.getPageNum()
-                , page.getPageSize()
-                , page.getPages());
-		System.out.println(page.getList());
-		model.addAttribute("pageInfo", page);
+
+		model.addAttribute("pageInfo", boardService.selectAll(vo, pageNum));
 		return "board/list";
 	}
 	@GetMapping("/board/info")
 	public void info(Integer bno, Model model) {
-		model.addAttribute("board" , boardMapper. selectOne(bno));
+		model.addAttribute("board" , boardService. selectOne(bno));
 	}
 	// 게시판 등록 페이지이동 
 	@GetMapping("/board/register")
@@ -58,27 +52,27 @@ public class Boardcontoller {
 		// 첨부파일 
 		file.transferTo(new File("d:/upload", file.getOriginalFilename()));
 		vo.setAttach(file.getOriginalFilename());
-		boardMapper.insert(vo);
+		boardService.insert(vo);
 		return "redirect:/board/list";
 	}
 	
 	// 게시글 수정
 	@GetMapping("/board/update") 
 	public String update(Integer bno, Model model) {
-		model.addAttribute("board", boardMapper.selectOne(bno));
+		model.addAttribute("board", boardService.selectOne(bno));
 		return "board/update";
 	}
 	
 	//수정처리
 	@PostMapping("/board/update")
 	public String updateProc(BoardVO vo) {
-	    boardMapper.update(vo);
+	    boardService.update(vo);
 	    return "redirect:/board/list";
 	}
 	// 게시글 삭제처리 
 	@GetMapping("/board/delete") 
 	public String delete(Integer bno) {
-		boardMapper.delete(bno);
+		boardService.delete(bno);
 		return "redirect:/board/list";
 	}
 	

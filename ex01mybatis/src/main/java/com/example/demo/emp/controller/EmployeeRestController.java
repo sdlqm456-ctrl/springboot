@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.emp.EmployeeVO;
-import com.example.demo.mapper.EmployeeMapper;
+import com.example.demo.emp.mapper.EmployeeMapper;
+import com.example.demo.emp.service.EmployeeVO;
 @CrossOrigin
 @RequestMapping("/api")
 @RestController
