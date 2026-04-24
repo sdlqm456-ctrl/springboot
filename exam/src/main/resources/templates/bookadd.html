@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div layout:fragment="content">
+  
+  <h1>도서등록</h1>
+   <form th:object="${book}" name= "frm">
+   <input type = "hidden" name="pageNum" value = "1">
+   도서번호: <input th:field="*{bookNo}">
+   도서명: <input th:field="*{bookName}">
+   도서표지: <input th:field="*{bookCovering}">
+   출판일자: <input th: field="*{bookDate}">
+   금액: <input th: field="*{bookPrice}">
+   출판사: <input th: field="*{bookPublsher}">
+   도서소개: <input th: field="*{bookInfo}">
+   
+   <button type="insert" class="btn btn-success">등록</button>
+   <button type="add" class="btn btn-dark">조회</button>
+   </form>
+
+</div>
+</body>
+</html>

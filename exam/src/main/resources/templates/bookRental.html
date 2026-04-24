@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>도서번호</td>
+			<td>도서명</td>
+			<td>대여총계</td>
+			<td>대여횟수</td>
+		</tr>
+		<tr th:each="emp :${pageInfo.list}"
+			th:class="${bookStat.even} ? 'back' : _">
+			<td th:text=${bookStat.count}></td>
+			<td th:text="${book.bookNo}"></td>
+			<td><a th:text="${emp.bookName}"
+				th:href="@{/book/info(id=${book.bookNo})}"></a></td>
+			<td th:text="${book.}"></td>
+			<td th:text="${book.}"></td>
+			<td></td>
+		</tr>
+	</table>
+</body>
+</html>

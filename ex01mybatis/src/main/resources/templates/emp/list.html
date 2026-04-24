@@ -37,7 +37,8 @@ layout:decorate="~{layout/layout}"
 			 <td>보너스</td>
 			 <td>수정</td>
 			</tr>
-				 <tr th:each="emp :${pageInfo.list}" th:class="${empStat.even} ? 'back' : _">
+			
+			<tr th:each="emp :${pageInfo.list}" th:class="${empStat.even} ? 'back' : _">
 				 <td th:text=${empStat.count}></td>
 				 <td th:text="${emp.employeeId}"></td>
 				 <td><a th:text="${emp.firstName}" th:href="@{/emp/info(id=${emp.employeeId})}"></a></td>

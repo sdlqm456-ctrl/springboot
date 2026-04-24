@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+	crossorigin="anonymous" />
+<style>
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #333;
+	color: white;
+	padding: 1rem;
+}
+
+.nav-links {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+}
+
+.nav-links li {
+	padding: 0 1rem;
+}
+
+.nav-links a {
+	text-decoration: none;
+	color: white;
+	transition: color 0.3s;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+th, td {
+	border: 1px solid black;
+	padding: 8px;
+	text-align: center;
+}
+
+th {
+	background-color: #f2f2f2;
+	width: 30%;
+}
+</style>
+</head>
+<body>
+	<nav class="navbar">
+		<ul class="nav-links">
+			<li><a href="bookadd"></a>도서등록</li>
+			<li><a href="booklist.html"></a>도서목록조회/수정</li>
+			<li><a href="bookRental"></a>대여현황조회</li>
+			<li><a href="book.html"></a>홈으로</li>
+		</ul>
+	</nav>
+	<h2 style="background-color: lightblue; text-align: center;">도서
+		조회/수정</h2>
+
+	<table>
+		<tr>
+			<td>도서번호</td>
+			<td>도서명</td>
+			<td>도서표지</td>
+			<td>출판일자</td>
+			<td>도서금액</td>
+			<td>출판사</td>
+			<td>도서소개</td>
+		</tr>
+
+		<tr th:each="book :${list}" th:class="${bookStat.even} ? 'back' : _">
+			<td th:text="${book.bookNo}"></td>
+			<td><a th:text="${book.bookName}"
+				th:href="@{/book/info(id=${book.bookNo})}"></a></td>
+			<td><a th:text="${book.bookCovering}"
+				th:href="@{/book/info(id=${book.bookNo})}"></a></td>
+			<td th:text="${#dates.format(book.bookDate, 'yyyy-MM-dd')}"></td>
+			<td><a th:text="${book.bookPrice}"
+				th:href="@{/book/info(id=${book.bookNo})}"></a></td>
+			<td><a th:text="${book.bookPublsher}"
+				th:href="@{/book/info(id=${book.bookNo})}"></a></td>
+			<td><a th:text="${book.bookInfo}"
+				th:href="@{/book/info(id=${book.bookNo})}"></a></td>
+		</tr>
+	</table>
+</body>
+</html>
